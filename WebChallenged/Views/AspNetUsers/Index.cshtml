@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Challenged.Domain.Entities.AspNetUser>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-12">
+
+
+    <div class="card ">
+        <div class="card-header">
+            <h3 class="card-title">Usuarios</h3>
+
+            <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 100%;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+
+            @{var grid = new WebGrid(source: Model, ajaxUpdateContainerId: "grid", canSort: true);
+            }
+            @MvcHtmlString.Create(grid.GetHtml(
+                         tableStyle: "table table-hover text-nowrap ",
+                                     htmlAttributes: new { id = "grd" },
+                columns: grid.Columns(
+                                    grid.Column("Id", header: "#"),
+                                    grid.Column("UserName", header: "Usuario"),
+                                    grid.Column(null, null, format: @<text>
+                                            <a href="@Url.Action("Details","AspNetUsers",new { id=item.Id })" class="btn btn-info"
+                                                     >
+                                                Acceso
+                                            </a>
+                                    </text>)
+)
+).ToString())
+
+        </div>
+
+    </div>
+    <!-- /.card -->
+</div>

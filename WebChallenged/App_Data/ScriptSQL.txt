@@ -1,0 +1,53 @@
+﻿
+CREATE TABLE [dbo].[Module](
+	[IdModule] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_Module] PRIMARY KEY CLUSTERED 
+(
+	[IdModule] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+CREATE TABLE [dbo].[ModuleUser](
+	[IdModuleUser] [int] IDENTITY(1,1) NOT NULL,
+	IdModule int not null,
+	IdUser NVARCHAR (128) NOT NULL
+ CONSTRAINT [PK_ModuleUser] PRIMARY KEY CLUSTERED 
+(
+	[IdModuleUser] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[ModuleUser]  WITH CHECK ADD  CONSTRAINT [FK_ModuleUser_Module] FOREIGN KEY([IdModule])
+REFERENCES [dbo].[Module] ([IdModule])
+
+GO
+
+ALTER TABLE [dbo].[ModuleUser] CHECK CONSTRAINT [FK_ModuleUser_Module]
+GO
+
+
+ALTER TABLE [dbo].[ModuleUser]  WITH CHECK ADD  CONSTRAINT [FK_ModuleUser_Users] FOREIGN KEY([IdUser])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+
+GO
+
+ALTER TABLE [dbo].[ModuleUser] CHECK CONSTRAINT [FK_ModuleUser_Users]
+GO
+
+
+insert into dbo.MOdule(Name)
+values('Module1');
+
+insert into dbo.MOdule(Name)
+values('Module2');
+
+insert into dbo.MOdule(Name)
+values('Module3');
+
+insert into dbo.MOdule(Name)
+values('Module4');

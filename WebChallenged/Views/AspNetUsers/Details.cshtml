@@ -1,0 +1,57 @@
+﻿@model List<Challenged.Domain.Entities.Module>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-12">
+
+
+        <div class="card ">
+            <div class="card-header">
+                <h3 class="card-title">Usuarios</h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 100%;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            @using (Html.BeginForm("Details", "AspNetUsers", FormMethod.Post, new { Area = "", enctype = "multipart/form-data", id = "frm" }))
+            {
+                <button type="submit" class="btn btn-block btn-info">Guardar</button>
+                <div class="card-body table-responsive p-0">
+                    @Html.Hidden("id")
+                    @{var grid = new WebGrid(source: Model, ajaxUpdateContainerId: "grid", canSort: true);
+                    }
+                    @MvcHtmlString.Create(grid.GetHtml(
+                                 tableStyle: "table table-hover text-nowrap ",
+                                             htmlAttributes: new { id = "grd" },
+                        columns: grid.Columns(
+                                            grid.Column("IdModule", header: "#"),
+                                            grid.Column("Name", header: "Modulo"),
+                                            grid.Column(null, null, format: @<text>
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" name="chkmodule" value="@item.IdModule" class="custom-control-input" @(((HashSet<Challenged.Domain.Entities.ModuleUser>)item.ModuleUsers).Any(a => a.IdUser == ViewBag.id) ? "checked" : "") id="customSwitch@(item.IdModule)">
+                                                            <label class="custom-control-label" for="customSwitch@(item.IdModule)"></label>
+                                                        </div>
+                                                    </div>
+                                            </text>)
+)
+).ToString())
+
+                </div>
+            }
+        </div>
+        <!-- /.card -->
+    </div>
